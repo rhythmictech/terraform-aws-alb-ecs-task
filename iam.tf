@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "assume" {
 }
 
 resource "aws_iam_role" "ecs_task" {
-  name_prefix        = "${var.name}-ecs-task-"
+  name_prefix        = local.ecs_task_iam_role_name_prefix
   assume_role_policy = data.aws_iam_policy_document.assume.json
   tags               = var.tags
 }
@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "additional" {
 #   IAM role that executes ECS actions such as pulling the image and storing the application logs in cloudwatch
 ########################################
 resource "aws_iam_role" "ecs_exec" {
-  name_prefix        = "${var.name}-ecs-exec-"
+  name_prefix        = local.ecs_exec_iam_role_name_prefix
   assume_role_policy = data.aws_iam_policy_document.assume.json
   tags               = var.tags
 }

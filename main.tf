@@ -2,7 +2,7 @@
 # Logs
 ########################################
 resource "aws_cloudwatch_log_group" "this" {
-  name_prefix = "${local.cloudwatch_log_group_name}-"
+  name_prefix = local.cloudwatch_log_group_name_prefix
   tags        = var.tags
 }
 
@@ -10,7 +10,7 @@ resource "aws_cloudwatch_log_group" "this" {
 # LB
 ########################################
 resource "aws_lb_target_group" "this" {
-  name_prefix = "${var.name}-tg-"
+  name_prefix = local.lb_target_group_name_prefix
   port        = var.target_group_port
   protocol    = "HTTP"
   tags        = var.tags

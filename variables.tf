@@ -6,11 +6,6 @@ variable "additional_ecs_task_policy_arns" {
   description = "ARNs for additional ECS task policies"
   type        = list(string)
 }
-variable "cloudwatch_log_group_name" {
-  default     = null
-  description = "Name of cloudwatch log group, defaults to `/ecs/<var.name>`"
-  type        = string
-}
 
 variable "cluster_name" {
   description = "Name of ECS cluster"

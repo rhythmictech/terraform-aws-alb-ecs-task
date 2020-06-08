@@ -37,7 +37,6 @@ A bit about this module
 | name | Moniker to apply to all resources in module | `string` | n/a | yes |
 | vpc\_id | VPC ID where resources will be created | `string` | n/a | yes |
 | additional\_ecs\_task\_policy\_arns | ARNs for additional ECS task policies | `list(string)` | `[]` | no |
-| cloudwatch\_log\_group\_name | Name of cloudwatch log group, defaults to `/ecs/<var.name>` | `string` | `null` | no |
 | container\_image | Container image, ie 203583890406.dkr.ecr.us-west-1.amazonaws.com/api-integrations:git-34752db | `string` | `"busybox"` | no |
 | container\_name | Defaults to `api-<var.name>` | `string` | `null` | no |
 | environment\_variables | The environment variables to pass to the container. This is a list of maps | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `null` | no |
