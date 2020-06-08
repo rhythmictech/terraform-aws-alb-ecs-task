@@ -37,10 +37,38 @@ resource "aws_ecs_cluster" "example" {
   tags = module.tags.tags
 }
 
+resource "aws_security_group" "alb" {
+  description = "Example rule for ALB"
+  name_prefix = "${local.name}-sg-"
+  tags        = module.tags.tags
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_security_group_rule" "allow_all_http_ingress" {
+  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:AWS006
+  description       = "Allow everything to access our example"
+  from_port         = 80
+  protocol          = "-1"
+  security_group_id = aws_security_group.alb.id
+  to_port           = 80
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "allow_all_egress" {
+  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:AWS007
+  description       = "Allow our example to egress anywhere"
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.alb.id
+  to_port           = 0
+  type              = "egress"
+}
+
 resource "aws_lb" "public" {
   internal           = false #tfsec:ignore:AWS005
   load_balancer_type = "application"
   name               = "${local.name}-external-alb"
+  security_groups    = [aws_security_group.alb.id]
   subnets            = var.subnet_ids
   tags               = module.tags.tags
 }
@@ -51,15 +79,16 @@ resource "aws_lb" "public" {
 module "example" {
   source = "../.."
 
-  cluster_name      = aws_ecs_cluster.example.name
-  container_port    = 80
-  container_image   = "docker.io/library/nginx:latest"
-  load_balancer_arn = aws_lb.public.arn
-  listener_port     = 80
-  name              = module.tags.name
-  subnets           = var.subnet_ids
-  tags              = module.tags.tags
-  vpc_id            = var.vpc_id
+  alb_security_group_id = aws_security_group.alb.id
+  cluster_name          = aws_ecs_cluster.example.name
+  container_port        = 80
+  container_image       = "docker.io/library/nginx:alpine"
+  load_balancer_arn     = aws_lb.public.arn
+  listener_port         = 80
+  name                  = module.tags.name
+  subnets               = var.subnet_ids
+  tags                  = module.tags.tags
+  vpc_id                = var.vpc_id
 }
 
 output "dns_name" {

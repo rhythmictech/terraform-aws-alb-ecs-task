@@ -7,6 +7,11 @@ variable "additional_ecs_task_policy_arns" {
   type        = list(string)
 }
 
+variable "alb_security_group_id" {
+  description = "ID for ALB Security Group"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "Name of ECS cluster"
   type        = string

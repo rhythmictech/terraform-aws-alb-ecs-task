@@ -37,6 +37,7 @@ module "example" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| alb\_security\_group\_id | ID for ALB Security Group | `string` | n/a | yes |
 | cluster\_name | Name of ECS cluster | `string` | n/a | yes |
 | container\_port | Port on Container that main process is listening on | `number` | n/a | yes |
 | listener\_port | Port LB listener will be created on & external port which will receive traffic | `number` | n/a | yes |

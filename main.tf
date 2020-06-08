@@ -1,4 +1,34 @@
 ########################################
+# Security Groups for ECS service
+########################################
+resource "aws_security_group" "ecs_service" {
+  vpc_id      = var.vpc_id
+  name_prefix = "${var.name}-sg-"
+  description = "Security Group for ECS Service ${var.name}"
+  tags        = var.tags
+}
+
+resource "aws_security_group_rule" "allow_all_egress" {
+  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:AWS007
+  description       = "Allow all traffic to egress from ${var.name}"
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.ecs_service.id
+  to_port           = 0
+  type              = "egress"
+}
+
+resource "aws_security_group_rule" "alb" {
+  from_port                = var.container_port
+  description              = "Allow ALB traffic in to ECS service ${var.name}"
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.ecs_service.id
+  source_security_group_id = var.alb_security_group_id
+  to_port                  = var.container_port
+  type                     = "ingress"
+}
+
+########################################
 # Logs
 ########################################
 resource "aws_cloudwatch_log_group" "this" {
@@ -88,14 +118,14 @@ resource "aws_ecs_service" "this" {
     # Subsequent deploys are done via code pipeline
     #  so if this is rerun without ignoring the task def change
     #  then terraform will roll it back :(
-    ignore_changes = [task_definition]
+    # ignore_changes = [task_definition]
   }
 
   network_configuration {
     # set assign_public_ip = true when using FARGATE, see
     # https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/
     assign_public_ip = (var.launch_type == "FARGATE")
-    security_groups  = var.security_group_ids
+    security_groups  = compact(concat(var.security_group_ids, [aws_security_group.ecs_service.id]))
     subnets          = var.subnets
   }
 }
