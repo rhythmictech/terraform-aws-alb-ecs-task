@@ -2,11 +2,8 @@
 # Locals
 ########################################
 locals {
-  environment               = var.environment
   cloudwatch_log_group_name = coalesce(var.cloudwatch_log_group_name, "/ecs/${var.name}")
-  container_image           = var.container_image
   container_name            = coalesce(var.container_name, "api-${var.name}")
-  secrets                   = var.secrets
 
   log_configuration = {
     logDriver : "awslogs",

@@ -1,61 +1,16 @@
 ########################################
-# S is for Security Groups
-########################################
-resource "aws_security_group" "ecs_service" {
-  description = "Allow ALL egress from ECS service"
-  name        = "${var.name}-sg"
-  tags        = var.tags
-  vpc_id      = var.vpc_id
-}
-
-resource "aws_security_group_rule" "allow_all_egress" {
-  cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 0
-  protocol          = "-1"
-  security_group_id = aws_security_group.ecs_service.id
-  to_port           = 0
-  type              = "egress"
-}
-
-resource "aws_security_group_rule" "allow_icmp_ingress" {
-  cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 8
-  protocol          = "icmp"
-  security_group_id = aws_security_group.ecs_service.id
-  to_port           = 0
-  type              = "ingress"
-}
-
-resource "aws_security_group_rule" "custom_rules" {
-  count             = length(var.custom_security_group_rules)
-  cidr_blocks       = var.custom_security_group_rules[count.index].cidr_blocks
-  from_port         = var.custom_security_group_rules[count.index].from_port
-  protocol          = var.custom_security_group_rules[count.index].protocol
-  security_group_id = aws_security_group.ecs_service.id
-  type              = var.custom_security_group_rules[count.index].type
-  to_port           = var.custom_security_group_rules[count.index].to_port
-}
-
-# do we have to whitelist the private subnets?
-# resource "aws_security_group_rule" "nlb" {
-#   type              = "ingress"
-#   from_port         = var.container_port
-#   to_port           = var.container_port
-#   protocol          = "tcp"
-#   cidr_blocks       = var.nlb_cidr_blocks
-#   security_group_id = aws_security_group.ecs_service.id
-# }
-
-########################################
-# L is for logging and load balancing
+# Logs
 ########################################
 resource "aws_cloudwatch_log_group" "this" {
   name_prefix = "${local.cloudwatch_log_group_name}-"
   tags        = var.tags
 }
 
+########################################
+# LB
+########################################
 resource "aws_lb_target_group" "this" {
-  name_prefix = module.tags.name32
+  name_prefix = "${var.name}-tg-"
   port        = var.target_group_port
   protocol    = "HTTP"
   tags        = var.tags
@@ -79,7 +34,7 @@ resource "aws_lb_listener" "this" {
   depends_on        = [aws_lb_target_group.this]
   load_balancer_arn = var.load_balancer_arn
   port              = var.listener_port
-  protocol          = "HTTP"
+  protocol          = "HTTP" #tfsec:ignore:AWS004
 
   default_action {
     target_group_arn = aws_lb_target_group.this.arn
@@ -88,19 +43,20 @@ resource "aws_lb_listener" "this" {
 }
 
 ########################################
-# E is for elastic container task definition
-#  and elastic container service
+# ECS
 ########################################
 module "container_definition" {
-  source = "github.com/cloudposse/terraform-aws-ecs-container-definition?ref=0.25.0"
+  source  = "cloudposse/ecs-container-definition/aws"
+  version = "0.25.0"
 
-  environment       = local.environment
+  environment       = var.environment_variables
   container_cpu     = var.task_cpu
-  container_image   = local.container_image
+  container_image   = var.container_image
   container_memory  = var.task_memory
   container_name    = local.container_name
   log_configuration = local.log_configuration
   port_mappings     = local.port_mappings
+  secrets           = var.secrets
 }
 
 resource "aws_ecs_task_definition" "this" {
@@ -119,7 +75,7 @@ resource "aws_ecs_service" "this" {
   cluster         = var.cluster_name
   desired_count   = var.task_desired_count
   launch_type     = var.launch_type
-  name_prefix     = "${module.tags.name}-"
+  name            = "${var.name}-service"
   task_definition = aws_ecs_task_definition.this.arn
 
   load_balancer {
@@ -139,7 +95,7 @@ resource "aws_ecs_service" "this" {
     # set assign_public_ip = true when using FARGATE, see
     # https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/
     assign_public_ip = (var.launch_type == "FARGATE")
-    security_groups  = compact(concat(var.security_groups, [aws_security_group.ecs_service.id]))
+    security_groups  = var.security_group_ids
     subnets          = var.subnets
   }
 }

@@ -36,16 +36,14 @@ A bit about this module
 | load\_balancer\_arn | ARN of load balancer which API will be attached to | `string` | n/a | yes |
 | name | Moniker to apply to all resources in module | `string` | n/a | yes |
 | vpc\_id | VPC ID where resources will be created | `string` | n/a | yes |
-| additional\_security\_group\_rules | Custom Security Group Rules | <pre>list(object({<br>    type        = string<br>    from_port   = number<br>    to_port     = number<br>    protocol    = string<br>    cidr_blocks = list(string)<br>  }))</pre> | `[]` | no |
+| additional\_ecs\_task\_policy\_arns | ARNs for additional ECS task policies | `list(string)` | `[]` | no |
 | cloudwatch\_log\_group\_name | Name of cloudwatch log group, defaults to `/ecs/<var.name>` | `string` | `null` | no |
 | container\_image | Container image, ie 203583890406.dkr.ecr.us-west-1.amazonaws.com/api-integrations:git-34752db | `string` | `"busybox"` | no |
 | container\_name | Defaults to `api-<var.name>` | `string` | `null` | no |
-| ecs\_task\_policy\_documents | IAM Policy Documents jsons to give ECS Task | `list(string)` | `[]` | no |
 | environment\_variables | The environment variables to pass to the container. This is a list of maps | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `null` | no |
 | health\_check | Target group health check, for LB to assess service health | <pre>object({<br>    port                = string<br>    protocol            = string<br>    healthy_threshold   = number<br>    unhealthy_threshold = number<br>    interval            = number<br>  })</pre> | <pre>{<br>  "healthy_threshold": 3,<br>  "interval": 30,<br>  "port": "traffic-port",<br>  "protocol": "HTTP",<br>  "unhealthy_threshold": 3<br>}</pre> | no |
 | launch\_type | ECS service launch type: FARGATE \| EC2 | `string` | `"FARGATE"` | no |
 | network\_mode | The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. | `string` | `"awsvpc"` | no |
-| port\_mappings | List of maps of port\_mappings to open | `list(map(string))` | `[]` | no |
 | region | Region to set as default for ECS | `string` | `"us-east-1"` | no |
 | secrets | The secrets to pass to the container. This is a list of maps | <pre>list(object({<br>    name      = string<br>    valueFrom = string<br>  }))</pre> | `null` | no |
 | security\_group\_ids | List of Security Group IDs to apply to the ECS Service | `list(string)` | `[]` | no |
@@ -65,7 +63,6 @@ A bit about this module
 | ecs\_task\_iam\_role | aws\_iam\_role resource for the ECS task |
 | iam\_role\_ecs\_service | aws\_iam\_role resource for the ECS service |
 | lb\_target\_group | aws\_lb\_target\_group resource |
-| security\_group | aws\_security\_group resource for the ECS service |
 | task\_definition | aws\_ecs\_task\_definition resource |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

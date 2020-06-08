@@ -23,29 +23,11 @@ resource "aws_iam_role" "ecs_task" {
   tags               = var.tags
 }
 
-data "aws_iam_policy_document" "read_secrets" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "secretsmanager:GetSecretValue",
-      "kms:Decrypt",
-      "ssm:*"
-    ]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_role_policy" "read_secrets" {
-  name_prefix = "${var.name}-ecs-task-read-secrets-"
-  policy      = data.aws_iam_policy_document.read_secrets.json
-  role        = aws_iam_role.ecs_task.id
-}
-
 resource "aws_iam_role_policy" "additional" {
-  count = length(var.additional_ecs_task_policies)
+  count = length(var.additional_ecs_task_policy_arns)
 
   name_prefix = "${var.name}-ecs-task-policy-${count.index}"
-  policy      = var.additional_ecs_task_policies[count.index]
+  policy      = var.additional_ecs_task_policy_arns[count.index]
   role        = aws_iam_role.ecs_task.id
 }
 
@@ -53,16 +35,6 @@ resource "aws_iam_role_policy" "additional" {
 # ECS Execution Role
 #   IAM role that executes ECS actions such as pulling the image and storing the application logs in cloudwatch
 ########################################
-data "aws_iam_policy_document" "ecs_task_exec" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-
 resource "aws_iam_role" "ecs_exec" {
   name_prefix        = "${var.name}-ecs-exec-"
   assume_role_policy = data.aws_iam_policy_document.assume.json

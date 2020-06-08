@@ -1,6 +1,11 @@
 ########################################
 # Variables
 ########################################
+variable "additional_ecs_task_policy_arns" {
+  default     = []
+  description = "ARNs for additional ECS task policies"
+  type        = list(string)
+}
 variable "cloudwatch_log_group_name" {
   default     = null
   description = "Name of cloudwatch log group, defaults to `/ecs/<var.name>`"
@@ -27,24 +32,6 @@ variable "container_name" {
 variable "container_port" {
   description = "Port on Container that main process is listening on"
   type        = number
-}
-
-variable "additional_security_group_rules" {
-  default     = []
-  description = "Custom Security Group Rules"
-  type = list(object({
-    type        = string
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
-  }))
-}
-
-variable "ecs_task_policy_documents" {
-  default     = []
-  description = "IAM Policy Documents jsons to give ECS Task"
-  type        = list(string)
 }
 
 variable "environment_variables" {
@@ -99,12 +86,6 @@ variable "network_mode" {
   default     = "awsvpc"
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
   type        = string
-}
-
-variable "port_mappings" {
-  default     = []
-  description = "List of maps of port_mappings to open"
-  type        = list(map(string))
 }
 
 variable "secrets" {

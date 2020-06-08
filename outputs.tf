@@ -26,11 +26,6 @@ output "ecs_task_iam_role" {
   value       = aws_iam_role.ecs_task
 }
 
-output "security_group" {
-  description = "aws_security_group resource for the ECS service"
-  value       = aws_security_group.ecs_service
-}
-
 output "task_definition" {
   description = "aws_ecs_task_definition resource"
   value       = aws_ecs_task_definition.this
