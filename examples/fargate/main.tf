@@ -2,7 +2,7 @@
 # Tags and Naming
 ########################################
 variable "vpc_id" {}
-variable "subnets" {}
+variable "subnet_ids" {}
 locals {
   env       = "sandbox"
   name      = "example"
@@ -41,7 +41,7 @@ resource "aws_lb" "public" {
   internal           = false #tfsec:ignore:AWS005
   load_balancer_type = "application"
   name               = "${local.name}-external-alb"
-  subnets            = var.subnets
+  subnets            = var.subnet_ids
   tags               = module.tags.tags
 }
 
@@ -57,7 +57,7 @@ module "example" {
   load_balancer_arn = aws_lb.public.arn
   listener_port     = 80
   name              = module.tags.name
-  subnets           = var.subnets
+  subnets           = var.subnet_ids
   tags              = module.tags.tags
   vpc_id            = var.vpc_id
 }
