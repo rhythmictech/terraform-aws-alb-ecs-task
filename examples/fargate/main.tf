@@ -79,16 +79,22 @@ resource "aws_lb" "public" {
 module "example" {
   source = "../.."
 
-  alb_security_group_id = aws_security_group.alb.id
-  cluster_name          = aws_ecs_cluster.example.name
-  container_port        = 80
-  container_image       = "docker.io/library/nginx:alpine"
-  load_balancer_arn     = aws_lb.public.arn
-  listener_port         = 80
-  name                  = module.tags.name
-  subnets               = var.subnet_ids
-  tags                  = module.tags.tags
-  vpc_id                = var.vpc_id
+  alb_security_group_id        = aws_security_group.alb.id
+  assign_ecs_service_public_ip = true
+  cluster_name                 = aws_ecs_cluster.example.name
+  container_port               = 80
+  container_image              = "docker.io/library/nginx:alpine"
+  load_balancer_arn            = aws_lb.public.arn
+  listener_port                = 80
+  name                         = module.tags.name
+  subnets                      = var.subnet_ids
+  tags                         = module.tags.tags
+  vpc_id                       = var.vpc_id
+}
+
+output "example_module" {
+  description = "the whole module"
+  value       = module.example
 }
 
 output "dns_name" {

@@ -24,5 +24,6 @@ No requirements.
 | Name | Description |
 |------|-------------|
 | dns\_name | DNS name of ALB |
+| example\_module | the whole module |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
