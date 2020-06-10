@@ -23,12 +23,11 @@ resource "aws_iam_role" "ecs_task" {
   tags               = var.tags
 }
 
-resource "aws_iam_role_policy" "additional" {
+resource "aws_iam_role_policy_attachment" "additional" {
   count = length(var.additional_ecs_task_policy_arns)
 
-  name_prefix = "${var.name}-ecs-task-policy-${count.index}-"
-  policy      = var.additional_ecs_task_policy_arns[count.index]
-  role        = aws_iam_role.ecs_task.id
+  policy = var.additional_ecs_task_policy_arns[count.index]
+  role   = aws_iam_role.ecs_task.id
 }
 
 ########################################
