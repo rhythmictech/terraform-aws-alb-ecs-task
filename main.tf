@@ -115,7 +115,7 @@ resource "aws_ecs_service" "this" {
   }
 
   lifecycle {
-    # Subsequent deploys are done via code pipeline
+    # Subsequent deploys are likely to be done through an external deployment pipeline
     #  so if this is rerun without ignoring the task def change
     #  then terraform will roll it back :(
     ignore_changes = [task_definition]
