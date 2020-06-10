@@ -67,6 +67,12 @@ variable "health_check" {
   })
 }
 
+variable "internal_protocol" {
+  default     = "HTTP"
+  description = "Protocol for traffic between the ALB and ECS. Should be one of [TCP, TLS, UDP, TCP_UDP, HTTP, HTTPS]"
+  type        = string
+}
+
 variable "launch_type" {
   default     = "FARGATE"
   description = "ECS service launch type: FARGATE | EC2"

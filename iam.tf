@@ -26,8 +26,8 @@ resource "aws_iam_role" "ecs_task" {
 resource "aws_iam_role_policy_attachment" "additional" {
   count = length(var.additional_ecs_task_policy_arns)
 
-  policy = var.additional_ecs_task_policy_arns[count.index]
-  role   = aws_iam_role.ecs_task.id
+  policy_arn = var.additional_ecs_task_policy_arns[count.index]
+  role       = aws_iam_role.ecs_task.id
 }
 
 ########################################

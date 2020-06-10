@@ -5,8 +5,8 @@ locals {
   cloudwatch_log_group_name_prefix = "/ecs/${var.name}-"
   container_name                   = coalesce(var.container_name, "api-${var.name}")
   # cannot be longer than 32 chars
-  ecs_exec_iam_role_name_prefix = "${substr(var.name, 0, 22)}-ecs-exec-"
-  ecs_task_iam_role_name_prefix = "${substr(var.name, 0, 22)}-ecs-task-"
+  ecs_exec_iam_role_name_prefix = "${substr(var.name, 0, 22)}-"
+  ecs_task_iam_role_name_prefix = "${substr(var.name, 0, 22)}-"
   # cannot be longer than 6 chars
   lb_target_group_name_prefix = "${substr(var.name, 0, 5)}-"
   region                      = data.aws_region.current.name

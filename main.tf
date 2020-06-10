@@ -2,7 +2,7 @@
 # Security Groups for ECS service
 ########################################
 resource "aws_security_group" "ecs_service" {
-  name_prefix = "${var.name}-sg-"
+  name_prefix = var.name
   description = "Security Group for ECS Service ${var.name}"
   tags        = var.tags
   vpc_id      = var.vpc_id
@@ -42,7 +42,7 @@ resource "aws_cloudwatch_log_group" "this" {
 resource "aws_lb_target_group" "this" {
   name_prefix = local.lb_target_group_name_prefix
   port        = var.target_group_port
-  protocol    = "HTTP"
+  protocol    = var.internal_protocol
   tags        = var.tags
   target_type = "ip"
   vpc_id      = var.vpc_id
@@ -64,7 +64,7 @@ resource "aws_lb_listener" "this" {
   depends_on        = [aws_lb_target_group.this]
   load_balancer_arn = var.load_balancer_arn
   port              = var.listener_port
-  protocol          = "HTTP" #tfsec:ignore:AWS004
+  protocol          = var.internal_protocol #tfsec:ignore:AWS004
 
   default_action {
     target_group_arn = aws_lb_target_group.this.arn
@@ -93,7 +93,7 @@ resource "aws_ecs_task_definition" "this" {
   container_definitions    = module.container_definition.json
   cpu                      = var.task_cpu
   execution_role_arn       = aws_iam_role.ecs_exec.arn
-  family                   = "${var.name}-task-def"
+  family                   = var.name
   memory                   = var.task_memory
   network_mode             = var.network_mode
   requires_compatibilities = [var.launch_type]
@@ -105,7 +105,7 @@ resource "aws_ecs_service" "this" {
   cluster         = var.cluster_name
   desired_count   = var.task_desired_count
   launch_type     = var.launch_type
-  name            = "${var.name}-service"
+  name            = var.name
   task_definition = aws_ecs_task_definition.this.arn
 
   load_balancer {
