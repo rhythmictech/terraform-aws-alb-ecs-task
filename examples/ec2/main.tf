@@ -1,4 +1,14 @@
 ########################################
+# Variables
+########################################
+
+variable "alb_security_group_id" {}
+variable "cluster_name" {}
+variable "load_balancer_arn" {}
+variable "subnet_ids" {}
+variable "vpc_id" {}
+
+########################################
 # Data Sources
 ########################################
 data "aws_caller_identity" "current" {}
@@ -36,11 +46,6 @@ module "tags" {
     "Owner"     = local.owner
   }, local.extra_tags)
 }
-variable "alb_security_group_id" {}
-variable "cluster_name" {}
-variable "load_balancer_arn" {}
-variable "subnet_ids" {}
-variable "vpc_id" {}
 
 ########################################
 # Example module invocation
