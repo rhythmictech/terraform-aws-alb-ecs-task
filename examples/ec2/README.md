@@ -1,5 +1,5 @@
-# Fargate Example
-Creates a public ALB, ECS cluster, and example Fargate service. All you need to do is provide the `vpc_id` and the `subnet_ids`.
+# EC2 Example
+Creates an ECS service with ALB listener on existing AWS infrastructure.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
