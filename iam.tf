@@ -46,11 +46,6 @@ data "aws_iam_policy_document" "ecs_exec" {
     effect    = "Allow"
     resources = ["*"]
     actions = [
-      "ssm:GetParameters",
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
     ]
