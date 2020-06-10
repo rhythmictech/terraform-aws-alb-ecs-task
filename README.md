@@ -51,7 +51,6 @@ module "example" {
 | health\_check | Target group health check, for LB to assess service health | <pre>object({<br>    port                = string<br>    protocol            = string<br>    healthy_threshold   = number<br>    unhealthy_threshold = number<br>    interval            = number<br>  })</pre> | <pre>{<br>  "healthy_threshold": 3,<br>  "interval": 30,<br>  "port": "traffic-port",<br>  "protocol": "HTTP",<br>  "unhealthy_threshold": 3<br>}</pre> | no |
 | launch\_type | ECS service launch type: FARGATE \| EC2 | `string` | `"FARGATE"` | no |
 | network\_mode | The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. | `string` | `"awsvpc"` | no |
-| region | Region to set as default for ECS | `string` | `"us-east-1"` | no |
 | secrets | The secrets to pass to the container. This is a list of maps | <pre>list(object({<br>    name      = string<br>    valueFrom = string<br>  }))</pre> | `null` | no |
 | security\_group\_ids | List of Security Group IDs to apply to the ECS Service | `list(string)` | `[]` | no |
 | subnets | Subnets that should be added to ECS service network configuration | `list(string)` | `[]` | no |

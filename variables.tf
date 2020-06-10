@@ -139,13 +139,12 @@ variable "task_memory" {
   type        = number
 }
 
-variable "region" {
-  default     = "us-east-1"
-  description = "Region to set as default for ECS"
-  type        = string
-}
-
 variable "vpc_id" {
   description = "VPC ID where resources will be created"
   type        = string
 }
+
+########################################
+# Data
+########################################
+data "aws_region" "current" {}

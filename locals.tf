@@ -9,12 +9,13 @@ locals {
   ecs_task_iam_role_name_prefix = "${substr(var.name, 0, 22)}-ecs-task-"
   # cannot be longer than 6 chars
   lb_target_group_name_prefix = "${substr(var.name, 0, 5)}-"
+  region                      = data.aws_region.current.name
 
   log_configuration = {
     logDriver : "awslogs",
     options = {
       "awslogs-group" : aws_cloudwatch_log_group.this.name,
-      "awslogs-region" : "${var.region}",
+      "awslogs-region" : "${local.region}",
       "awslogs-stream-prefix" : "ecs"
     }
     secretOptions = []
