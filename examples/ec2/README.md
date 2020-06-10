@@ -11,16 +11,19 @@ No requirements.
 | Name | Version |
 |------|---------|
 | aws | n/a |
-| tls | n/a |
 
 ## Inputs
 
-No input.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| alb\_security\_group\_id | n/a | `any` | n/a | yes |
+| cluster\_name | n/a | `any` | n/a | yes |
+| load\_balancer\_arn | n/a | `any` | n/a | yes |
+| subnet\_ids | n/a | `any` | n/a | yes |
+| vpc\_id | n/a | `any` | n/a | yes |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| dns\_name | DNS name of ALB |
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
