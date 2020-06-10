@@ -8,7 +8,7 @@ locals {
   ecs_exec_iam_role_name_prefix = "${substr(var.name, 0, 22)}-ecs-exec-"
   ecs_task_iam_role_name_prefix = "${substr(var.name, 0, 22)}-ecs-task-"
   # cannot be longer than 6 chars
-  lb_target_group_name_prefix = "${substr(var.name, 0, 2)}-tg-"
+  lb_target_group_name_prefix = "${substr(var.name, 0, 5)}-"
 
   log_configuration = {
     logDriver : "awslogs",
