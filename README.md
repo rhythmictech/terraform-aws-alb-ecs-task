@@ -45,6 +45,7 @@ module "example" {
 | name | Moniker to apply to all resources in module | `string` | n/a | yes |
 | vpc\_id | VPC ID where resources will be created | `string` | n/a | yes |
 | additional\_ecs\_task\_policy\_arns | ARNs for additional ECS task policies | `list(string)` | `[]` | no |
+| assign\_ecs\_service\_public\_ip | Assigns a public IP to your ECS service. Set true if using fargate, see https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/ | `bool` | `false` | no |
 | container\_image | Container image, ie 203583890406.dkr.ecr.us-west-1.amazonaws.com/api-integrations:git-34752db | `string` | `"busybox"` | no |
 | container\_name | Defaults to `api-<var.name>` | `string` | `null` | no |
 | environment\_variables | The environment variables to pass to the container. This is a list of maps | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `null` | no |

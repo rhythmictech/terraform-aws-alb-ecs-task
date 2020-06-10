@@ -8,11 +8,11 @@
 ########################################
 data "aws_iam_policy_document" "assume" {
   statement {
-    effect  = "Allow"
     actions = ["sts:AssumeRole"]
+    effect  = "Allow"
     principals {
-      type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
+      type        = "Service"
     }
   }
 }

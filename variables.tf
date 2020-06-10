@@ -12,6 +12,12 @@ variable "alb_security_group_id" {
   type        = string
 }
 
+variable "assign_ecs_service_public_ip" {
+  default     = false
+  description = "Assigns a public IP to your ECS service. Set true if using fargate, see https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/"
+  type        = bool
+}
+
 variable "cluster_name" {
   description = "Name of ECS cluster"
   type        = string
