@@ -55,3 +55,10 @@ resource "aws_iam_role_policy_attachment" "ecs_exec" {
   role       = aws_iam_role.ecs_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+resource "aws_iam_role_policy_attachment" "ecs_exec_additional" {
+  count = length(var.additional_ecs_service_exec_policy_arns)
+
+  policy_arn = var.additional_ecs_service_exec_policy_arns[count.index]
+  role       = aws_iam_role.ecs_exec.id
+}
