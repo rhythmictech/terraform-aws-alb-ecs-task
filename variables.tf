@@ -7,6 +7,12 @@ variable "additional_ecs_task_policy_arns" {
   type        = list(string)
 }
 
+variable "additional_ecs_service_exec_policy_arns" {
+  default     = []
+  description = "ARNs for additional ECS Service Execution Role policies"
+  type        = list(string)
+}
+
 variable "alb_security_group_id" {
   description = "ID for ALB Security Group"
   type        = string
