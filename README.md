@@ -1,4 +1,4 @@
-# terraform-aws-alb-ecs-task [![](https://github.com/rhythmictech/terraform-aws-alb-ecs-task/workflows/pre-commit-check/badge.svg)](https://github.com/rhythmictech/terraform-aws-alb-ecs-task/actions) <a href="https://twitter.com/intent/follow?screen_name=RhythmicTech"><img src="https://img.shields.io/twitter/follow/RhythmicTech?style=social&logo=RhythmicTech" alt="follow on Twitter"></a>
+# terraform-aws-alb-ecs-task [![](https://github.com/rhythmictech/terraform-aws-alb-ecs-task/workflows/pre-commit-check/badge.svg)](https://github.com/rhythmictech/terraform-aws-alb-ecs-task/actions) <a href="https://twitter.com/intent/follow?screen_name=RhythmicTech"><img src="https://img.shields.io/twitter/follow/RhythmicTech?style=social&logo=twitter" alt="follow on Twitter"></a>
 Creates an ECS service, ECS task, ALB target group, ALB listener, and CloudWatch logging. Ignores updates to the task so deployments can continue via another pipeline.
 
 ## Example
