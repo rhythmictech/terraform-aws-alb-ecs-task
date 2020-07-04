@@ -5,7 +5,8 @@ Creates an ECS service, ECS task, ALB target group, ALB listener, and CloudWatch
 Here's what using the module will look like
 ```hcl
 module "example" {
-  source = "github.com/rhythmictech/terraform-aws-alb-ecs-task?ref=master"
+  source  = "rhythmictech/alb-ecs-task/aws"
+  version = "1.1.0"
 
   cluster_name      = aws_ecs_cluster.example.name
   container_port    = 80
