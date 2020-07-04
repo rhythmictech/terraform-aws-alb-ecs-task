@@ -25,13 +25,13 @@ module "example" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.19 |
-| aws | ~> 2.48.0 |
+| aws | >= 2.48.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.48.0 |
+| aws | >= 2.48.0 |
 
 ## Inputs
 
