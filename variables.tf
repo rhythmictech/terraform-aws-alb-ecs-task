@@ -57,19 +57,24 @@ variable "environment_variables" {
 
 variable "health_check" {
   default = {
+    healthy_threshold   = 3
+    interval            = 30
+    path                = "/"
     port                = "traffic-port"
     protocol            = "HTTP"
-    healthy_threshold   = 3
     unhealthy_threshold = 3
-    interval            = 30
   }
-  description = "Target group health check, for LB to assess service health"
+  description = <<EOD
+Target group health check, for LB to assess service health
+See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group#health_check
+EOD
   type = object({
+    healthy_threshold   = number
+    interval            = number
+    path                = string
     port                = string
     protocol            = string
-    healthy_threshold   = number
     unhealthy_threshold = number
-    interval            = number
   })
 }
 
