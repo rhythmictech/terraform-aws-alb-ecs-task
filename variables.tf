@@ -46,6 +46,12 @@ variable "container_port" {
   type        = number
 }
 
+variable "create_listener" {
+  default     = false
+  description = "Creates LB listener attached to target group"
+  type        = bool
+}
+
 variable "environment_variables" {
   default     = null
   description = "The environment variables to pass to the container. This is a list of maps"

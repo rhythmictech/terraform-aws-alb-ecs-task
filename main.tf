@@ -62,6 +62,7 @@ resource "aws_lb_target_group" "this" {
 }
 
 resource "aws_lb_listener" "this" {
+  count             = var.create_listener ? 1 : 0
   depends_on        = [aws_lb_target_group.this]
   load_balancer_arn = var.load_balancer_arn
   port              = var.listener_port

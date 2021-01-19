@@ -27,6 +27,11 @@ output "lb_target_group" {
   value       = aws_lb_target_group.this
 }
 
+output "lb_target_group_id" {
+  description = "ID for the target group associated with service"
+  value       = aws_lb_target_group.this
+}
+
 output "security_group_id" {
   description = "Resource ID ofr Security Group associated with ECS Service network_configuration"
   value       = aws_security_group.ecs_service.id
