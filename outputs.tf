@@ -29,7 +29,12 @@ output "lb_target_group" {
 
 output "lb_target_group_id" {
   description = "ID for the target group associated with service"
-  value       = aws_lb_target_group.this
+  value       = aws_lb_target_group.this.id
+}
+
+output "lb_target_group_arn" {
+  description = "ARN for the target group associated with service"
+  value       = aws_lb_target_group.this.arn
 }
 
 output "security_group_id" {
