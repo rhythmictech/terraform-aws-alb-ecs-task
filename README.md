@@ -50,8 +50,9 @@ module "example" {
 | assign\_ecs\_service\_public\_ip | Assigns a public IP to your ECS service. Set true if using fargate, see https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/ | `bool` | `false` | no |
 | container\_image | Container image, ie 203583890406.dkr.ecr.us-west-1.amazonaws.com/api-integrations:git-34752db | `string` | `"busybox"` | no |
 | container\_name | Defaults to `api-<var.name>` | `string` | `null` | no |
+| create\_listener | Creates LB listener attached to target group | `bool` | `false` | no |
 | environment\_variables | The environment variables to pass to the container. This is a list of maps | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `null` | no |
-| health\_check | Target group health check, for LB to assess service health | <pre>object({<br>    port                = string<br>    protocol            = string<br>    healthy_threshold   = number<br>    unhealthy_threshold = number<br>    interval            = number<br>  })</pre> | <pre>{<br>  "healthy_threshold": 3,<br>  "interval": 30,<br>  "port": "traffic-port",<br>  "protocol": "HTTP",<br>  "unhealthy_threshold": 3<br>}</pre> | no |
+| health\_check | Target group health check, for LB to assess service health<br>See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group#health_check | <pre>object({<br>    healthy_threshold   = number<br>    interval            = number<br>    path                = string<br>    port                = string<br>    protocol            = string<br>    unhealthy_threshold = number<br>  })</pre> | <pre>{<br>  "healthy_threshold": 3,<br>  "interval": 30,<br>  "path": "/",<br>  "port": "traffic-port",<br>  "protocol": "HTTP",<br>  "unhealthy_threshold": 3<br>}</pre> | no |
 | internal\_protocol | Protocol for traffic between the ALB and ECS. Should be one of [TCP, TLS, UDP, TCP\_UDP, HTTP, HTTPS] | `string` | `"HTTP"` | no |
 | launch\_type | ECS service launch type: FARGATE \| EC2 | `string` | `"FARGATE"` | no |
 | network\_mode | The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. | `string` | `"awsvpc"` | no |
@@ -73,6 +74,9 @@ module "example" {
 | ecs\_task\_iam\_role | aws\_iam\_role resource for the ECS task |
 | iam\_role\_ecs\_service | aws\_iam\_role resource for the ECS service |
 | lb\_target\_group | aws\_lb\_target\_group resource |
+| lb\_target\_group\_arn | ARN for the target group associated with service |
+| lb\_target\_group\_id | ID for the target group associated with service |
+| security\_group\_id | Resource ID ofr Security Group associated with ECS Service network\_configuration |
 | task\_definition | aws\_ecs\_task\_definition resource |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
