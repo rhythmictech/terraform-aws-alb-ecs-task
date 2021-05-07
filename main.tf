@@ -61,16 +61,19 @@ resource "aws_lb_target_group" "this" {
   }
 }
 
-resource "aws_lb_listener" "this" {
-  count             = var.create_listener ? 1 : 0
-  depends_on        = [aws_lb_target_group.this]
-  load_balancer_arn = var.load_balancer_arn
-  port              = var.listener_port
-  protocol          = var.internal_protocol #tfsec:ignore:AWS004
+resource "aws_lb_listener_rule" "this" {
+  listener_arn = var.listener_arn
 
-  default_action {
-    target_group_arn = aws_lb_target_group.this.arn
+  action {
     type             = "forward"
+    target_group_arn = aws_lb_target_group.this.id
+  }
+
+  #TODO: use dynamic block to create different conditions
+  condition {
+    host_header {
+      values = [var.host_header]
+    }
   }
 }
 

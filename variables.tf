@@ -1,6 +1,7 @@
 ########################################
 # Variables
 ########################################
+
 variable "additional_ecs_task_policy_arns" {
   default     = []
   description = "ARNs for additional ECS task policies"
@@ -46,12 +47,6 @@ variable "container_port" {
   type        = number
 }
 
-variable "create_listener" {
-  default     = false
-  description = "Creates LB listener attached to target group"
-  type        = bool
-}
-
 variable "environment_variables" {
   default     = null
   description = "The environment variables to pass to the container. This is a list of maps"
@@ -84,6 +79,14 @@ EOD
   })
 }
 
+variable "host_header" {
+  type        = string
+  description = <<EOF
+The hostname in the request which acts as condition for listener. See
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule#host_header
+EOF
+}
+
 variable "internal_protocol" {
   default     = "HTTP"
   description = "Protocol for traffic between the ALB and ECS. Should be one of [TCP, TLS, UDP, TCP_UDP, HTTP, HTTPS]"
@@ -96,13 +99,8 @@ variable "launch_type" {
   type        = string
 }
 
-variable "listener_port" {
-  description = "Port LB listener will be created on & external port which will receive traffic"
-  type        = number
-}
-
-variable "load_balancer_arn" {
-  description = "ARN of load balancer which API will be attached to"
+variable "listener_arn" {
+  description = "ARN of listener on ALB"
   type        = string
 }
 
