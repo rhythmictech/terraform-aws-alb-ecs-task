@@ -104,6 +104,10 @@ resource "aws_ecs_task_definition" "this" {
   requires_compatibilities = [var.launch_type]
   tags                     = var.tags
   task_role_arn            = aws_iam_role.ecs_task.arn
+
+  lifecycle {
+    ignore_changes = [container_definitions]
+  }
 }
 
 resource "aws_ecs_service" "this" {
