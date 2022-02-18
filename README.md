@@ -38,7 +38,7 @@ module "example" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_container_definition"></a> [container\_definition](#module\_container\_definition) | cloudposse/ecs-container-definition/aws | 0.25.0 |
+| <a name="module_container_definition"></a> [container\_definition](#module\_container\_definition) | cloudposse/ecs-container-definition/aws | 0.58.1 |
 
 ## Resources
 
@@ -65,22 +65,21 @@ module "example" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alb_security_group_id"></a> [alb\_security\_group\_id](#input\_alb\_security\_group\_id) | ID for ALB Security Group | `string` | n/a | yes |
-| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of ECS cluster | `string` | n/a | yes |
-| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Port on Container that main process is listening on | `number` | n/a | yes |
-| <a name="input_host_header"></a> [host\_header](#input\_host\_header) | The hostname in the request which acts as condition for listener. See<br>https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule#host_header | `string` | n/a | yes |
-| <a name="input_listener_arn"></a> [listener\_arn](#input\_listener\_arn) | ARN of listener on ALB | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Moniker to apply to all resources in module | `string` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID where resources will be created | `string` | n/a | yes |
 | <a name="input_additional_ecs_service_exec_policy_arns"></a> [additional\_ecs\_service\_exec\_policy\_arns](#input\_additional\_ecs\_service\_exec\_policy\_arns) | ARNs for additional ECS Service Execution Role policies | `list(string)` | `[]` | no |
 | <a name="input_additional_ecs_task_policy_arns"></a> [additional\_ecs\_task\_policy\_arns](#input\_additional\_ecs\_task\_policy\_arns) | ARNs for additional ECS task policies | `list(string)` | `[]` | no |
+| <a name="input_alb_security_group_id"></a> [alb\_security\_group\_id](#input\_alb\_security\_group\_id) | ID for ALB Security Group | `string` | n/a | yes |
 | <a name="input_assign_ecs_service_public_ip"></a> [assign\_ecs\_service\_public\_ip](#input\_assign\_ecs\_service\_public\_ip) | Assigns a public IP to your ECS service. Set true if using fargate, see https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/ | `bool` | `false` | no |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of ECS cluster | `string` | n/a | yes |
 | <a name="input_container_image"></a> [container\_image](#input\_container\_image) | Container image, ie 203583890406.dkr.ecr.us-west-1.amazonaws.com/api-integrations:git-34752db | `string` | `"busybox"` | no |
 | <a name="input_container_name"></a> [container\_name](#input\_container\_name) | Defaults to `api-<var.name>` | `string` | `null` | no |
+| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Port on Container that main process is listening on | `number` | n/a | yes |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | The environment variables to pass to the container. This is a list of maps | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `null` | no |
 | <a name="input_health_check"></a> [health\_check](#input\_health\_check) | Target group health check, for LB to assess service health<br>See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group#health_check | <pre>object({<br>    healthy_threshold   = number<br>    interval            = number<br>    path                = string<br>    port                = string<br>    protocol            = string<br>    unhealthy_threshold = number<br>  })</pre> | <pre>{<br>  "healthy_threshold": 3,<br>  "interval": 30,<br>  "path": "/",<br>  "port": "traffic-port",<br>  "protocol": "HTTP",<br>  "unhealthy_threshold": 3<br>}</pre> | no |
+| <a name="input_host_header"></a> [host\_header](#input\_host\_header) | The hostname in the request which acts as condition for listener. See<br>https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule#host_header | `string` | n/a | yes |
 | <a name="input_internal_protocol"></a> [internal\_protocol](#input\_internal\_protocol) | Protocol for traffic between the ALB and ECS. Should be one of [TCP, TLS, UDP, TCP\_UDP, HTTP, HTTPS] | `string` | `"HTTP"` | no |
 | <a name="input_launch_type"></a> [launch\_type](#input\_launch\_type) | ECS service launch type: FARGATE \| EC2 | `string` | `"FARGATE"` | no |
+| <a name="input_listener_arn"></a> [listener\_arn](#input\_listener\_arn) | ARN of listener on ALB | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Moniker to apply to all resources in module | `string` | n/a | yes |
 | <a name="input_network_mode"></a> [network\_mode](#input\_network\_mode) | The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. | `string` | `"awsvpc"` | no |
 | <a name="input_secrets"></a> [secrets](#input\_secrets) | The secrets to pass to the container. This is a list of maps | <pre>list(object({<br>    name      = string<br>    valueFrom = string<br>  }))</pre> | `null` | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | List of Security Group IDs to apply to the ECS Service | `list(string)` | `[]` | no |
@@ -90,6 +89,7 @@ module "example" {
 | <a name="input_task_cpu"></a> [task\_cpu](#input\_task\_cpu) | The number of cpu units used by the task. | `number` | `1024` | no |
 | <a name="input_task_desired_count"></a> [task\_desired\_count](#input\_task\_desired\_count) | Number of copies of task definition that should be running at any given time | `number` | `1` | no |
 | <a name="input_task_memory"></a> [task\_memory](#input\_task\_memory) | The amount (in MiB) of memory used by the task. | `number` | `2048` | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID where resources will be created | `string` | n/a | yes |
 
 ## Outputs
 
