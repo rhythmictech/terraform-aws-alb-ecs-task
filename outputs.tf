@@ -14,13 +14,14 @@ output "ecs_service" {
 
 output "ecs_task_iam_role" {
   description = "aws_iam_role resource for the ECS task"
-  value       = aws_iam_role.ecs_task
+  value       = try(aws_iam_role.ecs_task[0], var.ecs_task_role)
 }
 
 output "iam_role_ecs_service" {
   description = "aws_iam_role resource for the ECS service"
-  value       = aws_iam_role.ecs_exec
+  value       = try(aws_iam_role.ecs_exec[0], var.ecs_execution_role)
 }
+
 
 output "lb_target_group" {
   description = "aws_lb_target_group resource"
