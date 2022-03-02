@@ -16,7 +16,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_example"></a> [example](#module\_example) | ../.. |  |
+| <a name="module_example"></a> [example](#module\_example) | ../.. | n/a |
 | <a name="module_tags"></a> [tags](#module\_tags) | rhythmictech/tags/terraform | 1.0.0 |
 
 ## Resources
