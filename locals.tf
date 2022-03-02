@@ -2,8 +2,7 @@
 # Locals
 ########################################
 locals {
-  cloudwatch_log_group_name_prefix = "/ecs/${var.name}-"
-  container_name                   = coalesce(var.container_name, "api-${var.name}")
+  container_name = coalesce(var.container_name, "api-${var.name}")
   # cannot be longer than 32 chars
   ecs_exec_iam_role_name_prefix = "${substr(var.name, 0, 22)}-"
   ecs_task_iam_role_name_prefix = "${substr(var.name, 0, 22)}-"
