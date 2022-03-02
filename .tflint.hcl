@@ -2,11 +2,6 @@ config {
   module     = true
 }
 
-plugin "aws" {
-  enabled = true
-  deep_check = true
-}
-
 rule "terraform_deprecated_interpolation" {
   enabled = true
 }

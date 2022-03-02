@@ -97,13 +97,13 @@ module "container_definition" {
 resource "aws_ecs_task_definition" "this" {
   container_definitions    = module.container_definition.json_map_encoded_list
   cpu                      = var.task_cpu
-  execution_role_arn       = aws_iam_role.ecs_exec.arn
+  execution_role_arn       = try(aws_iam_role.ecs_exec[0].arn, var.ecs_execution_role)
   family                   = var.name
   memory                   = var.task_memory
   network_mode             = var.network_mode
   requires_compatibilities = [var.launch_type]
   tags                     = var.tags
-  task_role_arn            = aws_iam_role.ecs_task.arn
+  task_role_arn            = try(aws_iam_role.ecs_task[0].arn, var.ecs_task_role)
 
   lifecycle {
     ignore_changes = [container_definitions]
