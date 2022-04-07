@@ -9,7 +9,7 @@ resource "aws_security_group" "ecs_service" {
 }
 
 resource "aws_security_group_rule" "allow_all_egress" {
-  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:AWS007
+  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sgr
   description       = "Allow all traffic to egress from ${var.name}"
   from_port         = 0
   protocol          = "-1"
@@ -31,6 +31,8 @@ resource "aws_security_group_rule" "alb" {
 ########################################
 # Logs
 ########################################
+
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
 resource "aws_cloudwatch_log_group" "this" {
   name = "/aws/ecs/${var.name}"
   tags = var.tags
@@ -135,5 +137,14 @@ resource "aws_ecs_service" "this" {
     assign_public_ip = var.assign_ecs_service_public_ip
     security_groups  = compact(concat(var.security_group_ids, [aws_security_group.ecs_service.id]))
     subnets          = var.subnets
+  }
+
+  dynamic "service_registries" {
+    for_each = var.service_registry_arn == null ? [] : [1]
+    content {
+      registry_arn   = var.service_registry_arn
+      container_name = local.container_name
+      container_port = var.container_port
+    }
   }
 }
