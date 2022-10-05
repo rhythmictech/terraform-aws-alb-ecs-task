@@ -36,6 +36,10 @@ resource "aws_security_group_rule" "alb" {
 resource "aws_cloudwatch_log_group" "this" {
   name = "/aws/ecs/${var.name}"
   tags = var.tags
+
+  lifecycle {
+    ignore_changes = [name, name_prefix]
+  }
 }
 
 ########################################
