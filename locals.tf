@@ -10,6 +10,8 @@ locals {
   lb_target_group_name_prefix = "${substr(var.name, 0, 5)}-"
   region                      = data.aws_region.current.name
 
+  create_task_def = var.task_def_arn == "" ? true : false
+
   log_configuration = {
     logDriver : "awslogs",
     options = {
