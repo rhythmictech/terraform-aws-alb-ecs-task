@@ -79,8 +79,8 @@ EOD
   })
 }
 
-variable "host_header" {
-  type        = string
+variable "host_headers" {
+  type        = list(string)
   description = <<EOF
 The hostname in the request which acts as condition for listener. See
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule#host_header
