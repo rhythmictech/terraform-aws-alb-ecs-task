@@ -160,6 +160,12 @@ variable "task_cpu" {
   type        = number
 }
 
+variable "task_def_arn" {
+  default     = ""
+  description = "Task definition arn"
+  type        = string
+}
+
 variable "task_desired_count" {
   default     = 1
   description = "Number of copies of task definition that should be running at any given time"
