@@ -78,7 +78,7 @@ resource "aws_lb_listener_rule" "this" {
   #TODO: use dynamic block to create different conditions
   condition {
     host_header {
-      values = [var.host_header]
+      values = var.host_headers
     }
   }
 }
